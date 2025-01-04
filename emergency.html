@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Contacts</title>
+    <style>
+        /* General styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #ffcccc, #ffe6e6);
+            color: #003366;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container for the contacts */
+        .contacts-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        /* Heading */
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff4d4d;
+        }
+
+        /* Contact details styles */
+        .contact {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-info {
+            flex-grow: 1;
+        }
+
+        /* Call button styles */
+        .call-button {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .call-button:hover {
+            background-color: #cc0000;
+        }
+
+        /* Back button styles */
+        .back-button {
+            display: block;
+            background-color: #00796b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #005b4d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contacts-container">
+        <h1>Emergency Contacts</h1>
+
+        <div class="contact">
+            <div class="contact-info">
+                <strong>Jane Smith</strong><br>
+                Relationship: Sister<br>
+                Phone: 123-456-7890
+            </div>
+            <button class="call-button" onclick="callContact('123-456-7890')">Call</button>
+        </div>
+
+        <div class="contact">
+            <div class="contact-info">
+                <strong>Mark Johnson</strong><br>
+                Relationship: Father<br>
+                Phone: 098-765-4321
+            </div>
+            <button class="call-button" onclick="callContact('098-765-4321')">Call</button>
+        </div>
+
+        <div class="contact">
+            <div class="contact-info">
+                <strong>Emily Davis</strong><br>
+                Relationship: Friend<br>
+                Phone: 555-123-4567
+            </div>
+            <button class="call-button" onclick="callContact('555-123-4567')">Call</button>
+        </div>
+
+        <div class="contact">
+            <div class="contact-info">
+                <strong>Michael Brown</strong><br>
+                Relationship: Neighbor<br>
+                Phone: 444-321-9876
+            </div>
+            <button class="call-button" onclick="callContact('444-321-9876')">Call</button>
+        </div>
+
+        <!-- Back button -->
+        <a href="index.html" class="back-button">Home</a>
+    </div>
+
+    <script>
+        function callContact(phoneNumber) {
+            alert("Calling " + phoneNumber);
+            // Here you could implement actual call functionality using a phone dialer app
+            // Example: window.location.href = "tel:" + phoneNumber;
+        }
+    </script>
+</body>
+
+</html>

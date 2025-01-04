@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Profile</title>
+    <style>
+        /* General styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #e6f2ff, #cce5ff);
+            color: #003366;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container for the profile */
+        .profile-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        /* Heading */
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #6ab1f7;
+        }
+
+        /* Profile details styles */
+        .profile-details {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        /* Back button styles */
+        .back-button {
+            display: block;
+            background-color: #00796b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #005b4d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-container">
+        <h1>Health Profile</h1>
+
+        <div class="profile-details"><strong>Name:</strong> John Doe</div>
+        <div class="profile-details"><strong>Age:</strong> 30</div>
+        <div class="profile-details"><strong>Blood Type:</strong> O+</div>
+        <div class="profile-details"><strong>Medical Conditions:</strong> Hypertension, Asthma</div>
+        <div class="profile-details"><strong>Medications:</strong> Lisinopril, Albuterol</div>
+        <div class="profile-details"><strong>Hospitals Visited:</strong> General Hospital, City Medical Center</div>
+        <div class="profile-details"><strong>Doctors Consulted:</strong> Dr. Smith, Dr. Johnson</div>
+        
+        <!-- Back button -->
+        <a href="index.html" class="back-button">Home</a>
+    </div>
+
+</body>
+
+</html>

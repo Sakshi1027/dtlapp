@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Assistance</title>
+    <style>
+        /* General styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #e6ffe6, #cce5cc);
+            color: #003366;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Container for the assistance page */
+        .assistance-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+            overflow-y: auto; /* Allow scrolling if content exceeds height */
+            max-height: 80vh; /* Limit the maximum height */
+        }
+
+        /* Heading */
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4caf50;
+        }
+
+        /* Symptom styles */
+        .symptom {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Immediate first aid styles */
+        .first-aid {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Request assistance button styles */
+        .request-button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .request-button:hover {
+            background-color: #388e3c;
+        }
+
+        /* Back button styles */
+        .back-button {
+            background-color: #00796b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .back-button:hover {
+            background-color: #005b4d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="assistance-container">
+        <h1>Request Assistance</h1>
+
+        <div class="symptom">
+            <strong>1. Chest Pain</strong>
+            <div class="first-aid">
+                - Call emergency services immediately.<br>
+                - Have the person sit or lie down comfortably.<br>
+                - If they are conscious and not allergic, you can give them an aspirin.
+            </div>
+        </div>
+
+        <div class="symptom">
+            <strong>2. Severe Bleeding</strong>
+            <div class="first-aid">
+                - Apply direct pressure to the wound with a clean cloth.<br>
+                - Elevate the injured area if possible.<br>
+                - Do not remove any objects embedded in the wound.
+            </div>
+        </div>
+
+        <div class="symptom">
+            <strong>3. Difficulty Breathing</strong>
+            <div class="first-aid">
+                - Call emergency services if breathing does not improve.<br>
+                - Help the person to sit upright.<br>
+                - If they have a prescribed inhaler, assist them in using it.
+            </div>
+        </div>
+
+        <div class="symptom">
+            <strong>4. Unconsciousness</strong>
+            <div class="first-aid">
+                - Check for breathing and pulse.<br>
+                - If not breathing, begin CPR immediately.<br>
+                - Place them in the recovery position if they are breathing.
+            </div>
+        </div>
+
+        <div class="symptom">
+            <strong>5. Burns</strong>
+            <div class="first-aid">
+                - Cool the burn under running water for at least 10 minutes.<br>
+                - Cover the burn with a sterile, non-stick dressing.<br>
+                - Do not apply ice directly to the burn.
+            </div>
+        </div>
+        
+      
+        <a href="index.html" class="back-button">Home</a>
+    </div>
+
+   
+</body>
+
+</html>

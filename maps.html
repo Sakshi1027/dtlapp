@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Care Connect</title>
+    <style>
+        /* General styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white;
+            position: relative;
+        }
+
+        /* Phone frame */
+        .phone-outline {
+            width: 360px;
+            height: 680px;
+            background: white;
+            border: 2px solid black;
+            border-radius: 40px;
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top bar */
+        .top-bar {
+            width: 90%;
+            height: 30px;
+            background-color: white;
+            color: #003366;
+            font-size: 18px;
+            font-weight: bold;
+            justify-content: flex-start;
+            align-items: center;
+            border-radius: 10px;
+            padding: 0 10px;
+            position: absolute;
+            top: 8.4px;
+            left: 3;
+            z-index: 10;
+        }
+
+        /* Map container */
+        .map-container {
+            width: 95%;
+            height: 60%;
+            background-color: white;
+            border: 2px solid blue;
+            border-radius: 20px;
+            margin-top: 40px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Directions container */
+        .directions-container {
+            width: 95%;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 14px;
+            max-height: 120px;
+            overflow-y: auto;
+            z-index: 2;
+        }
+
+        /* Button container */
+        .button-container {
+            width: 80%;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px; /* Add margin for spacing */
+        }
+
+        .emergency-button,
+        .home-button,
+        .back-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            flex: 1; /* Allow buttons to grow equally */
+            color: white;
+        }
+
+        .emergency-button {
+            background-color: red; /* Emergency button color */
+        }
+
+        .emergency-button:hover {
+            background-color: darkred;
+        }
+
+        .home-button {
+            background-color: blue; /* Home button color */
+        }
+
+        .home-button:hover {
+            background-color: darkblue; /* Darker color on hover */
+        }
+
+        .back-button {
+            background-color: green; /* Back button color */
+        }
+
+        .back-button:hover {
+            background-color: darkgreen; /* Darker color on hover */
+        }
+
+        /* Hide text over map */
+        .leaflet-routing-container {
+            color: transparent !important;
+        }
+
+        /* Hospital name container */
+        .hospital-name {
+            width: 95%;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e6f7ff;
+            border: 1px solid #0073e6;
+            border-radius: 10px;
+            font-size: 16px;
+            text-align: center;
+            font-weight: bold;
+            color: #003366;
+            z-index: 2;
+        }
+
+        /* Menu styles */
+        .menu {
+            position: absolute;
+            top: 0;
+            left: -230px;
+            width: 250px;
+            height: 370px;
+            background: #003366;
+            border: 1px solid #0073e6;
+            border-radius: 10px;
+            color: white;
+            padding: 1rem;
+            display: none;
+            flex-direction: column;
+            z-index: 20;
+        }
+
+        .menu a {
+            color: white;
+            margin: 1rem 0;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .menu a:hover {
+            color: #0056b3;
+        }
+
+        .menu.show {
+            display: flex;
+            left: 0;
+            top: 40px;
+        }
+    </style>
+
+    <!-- Leaflet and Routing Libraries -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+</head>
+
+<body>
+
+<div class="phone-outline">
+    <div class="top-bar">Care Connect</div>
+    <div class="map-container">
+        <div id="map"></div>
+    </div>
+    <div class="hospital-name" id="hospitalName"></div>
+    <div class="directions-container" id="directions" style="display: none;"></div>
+    <div class="button-container">
+        <button class="home-button" id="homeBtn">Home</button>
+        <button class="back-button" id="backBtn" style="display: none;">Back</button>
+        <button class="emergency-button" id="emergencyBtn">Emergency Help</button>
+    </div>
+</div>
+
+    <!-- Script -->
+    <script>
+        let map, userMarker, hospitalMarker, routeControl;
+
+        function initializeMap() {
+            map = L.map('map').setView([0, 0], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+        }
+
+        async function getUserLocation() {
+            return new Promise((resolve, reject) => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => resolve([position.coords.latitude, position.coords.longitude]),
+                        (error) => reject("Error fetching location: " + error.message)
+                    );
+                } else {
+                    reject("Geolocation is not supported by this browser.");
+                }
+            });
+        }
+
+        async function findNearestHospital(userCoords) {
+            const radiusStep = 2000;
+            let radius = 3000;
+            let hospitals = [];
+
+            while (hospitals.length === 0) {
+                const url = `https://overpass-api.de/api/interpreter?data=[out:json];node["amenity"="hospital"](around:${radius},${userCoords[0]},${userCoords[1]});out;`;
+
+                const response = await fetch(url);
+                const data = await response.json();
+                hospitals = data.elements;
+
+                if (hospitals.length === 0) radius += radiusStep;
+                if (radius > 10000) throw new Error("No hospitals found within 10 km.");
+            }
+
+            return hospitals[0];
+        }
+
+        function displayRoute(userCoords, hospitalCoords, hospitalName) {
+            if (routeControl) map.removeControl(routeControl);
+            if (userMarker) map.removeLayer(userMarker);
+            if (hospitalMarker) map.removeLayer(hospitalMarker);
+
+            userMarker = L.marker(userCoords).addTo(map).bindPopup("You are here").openPopup();
+            hospitalMarker = L.marker(hospitalCoords).addTo(map).bindPopup("Nearest Hospital").openPopup();
+
+            routeControl = L.Routing.control({
+                waypoints: [
+                    L.latLng(userCoords),
+                    L.latLng(hospitalCoords)
+                ],
+                routeWhileDragging: false,
+                addWaypoints: false,
+                lineOptions: {
+                    styles: [{ color: 'red', weight: 2 }]
+                },
+                createMarker: () => null
+            });
+
+            // Fetch and display route directions
+            routeControl.on('routesfound', (e) => {
+                const directions = e.routes[0].instructions.map((step, index) =>
+                    `<li>${index + 1}. ${step.text}</li>`
+                ).join('');
+
+                // Display directions only below the hospital name
+                document.getElementById('directions').innerHTML = `<ol>${directions}</ol>`;
+                document.getElementById('directions').style.display = 'block';
+            });
+
+            // Add the route control to the map without showing instructions on the map
+            routeControl.addTo(map);
+            map.fitBounds([userCoords, hospitalCoords]);
+
+            document.getElementById('hospitalName').textContent = `Nearest Hospital: ${hospitalName}`;
+        }
+
+        document.getElementById('emergencyBtn').addEventListener('click', async () => {
+            try {
+                const userCoords = await getUserLocation();
+                const hospital = await findNearestHospital(userCoords);
+                const hospitalCoords = [hospital.lat, hospital.lon];
+                const hospitalName = hospital.tags.name || "Unnamed Hospital";
+
+                displayRoute(userCoords, hospitalCoords, hospitalName);
+
+                document.getElementById('emergencyBtn').style.display = 'none';
+                document.getElementById('backBtn').style.display = 'inline-block';
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+
+        document.getElementById('backBtn').addEventListener('click', () => {
+            location.reload();
+        });
+
+        document.getElementById('homeBtn').addEventListener('click', () => {
+            window.location.href = 'index.html'; // Change this to your home page URL
+        });
+
+        initializeMap();
+    </script>
+</body>
+
+</html>
