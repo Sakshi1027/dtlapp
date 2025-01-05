@@ -89,24 +89,27 @@
             width: 80%;
             display: flex;
             justify-content: space-between;
-            margin-top: 10px; /* Add margin for spacing */
+            margin-top: 10px;
+            margin-left: -70px;
         }
 
         .emergency-button,
         .home-button,
-        .back-button {
+        .back-button,
+        .dispatch-button {
             padding: 10px 20px;
+            margin-right: 10px;
             border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            flex: 1; /* Allow buttons to grow equally */
+            flex: 1;
             color: white;
         }
 
         .emergency-button {
-            background-color: red; /* Emergency button color */
+            background-color: red;
         }
 
         .emergency-button:hover {
@@ -114,19 +117,27 @@
         }
 
         .home-button {
-            background-color: blue; /* Home button color */
+            background-color: blue;
         }
 
         .home-button:hover {
-            background-color: darkblue; /* Darker color on hover */
+            background-color: darkblue;
         }
 
         .back-button {
-            background-color: green; /* Back button color */
+            background-color: green;
         }
 
         .back-button:hover {
-            background-color: darkgreen; /* Darker color on hover */
+            background-color: darkgreen;
+        }
+
+        .dispatch-button {
+            background-color: orange;
+        }
+
+        .dispatch-button:hover {
+            background-color: darkorange;
         }
 
         /* Hide text over map */
@@ -203,12 +214,13 @@
         <button class="home-button" id="homeBtn">Home</button>
         <button class="back-button" id="backBtn" style="display: none;">Back</button>
         <button class="emergency-button" id="emergencyBtn">Emergency Help</button>
+        <button class="dispatch-button" id="dispatchBtn">Request for Ambulance Service</button>
     </div>
 </div>
 
     <!-- Script -->
     <script>
-        let map, userMarker, hospitalMarker, routeControl;
+        let map, userMarker, hospitalMarker, routeControl, ambulanceMarker;
 
         function initializeMap() {
             map = L.map('map').setView([0, 0], 13);
@@ -246,6 +258,14 @@
                 if (radius > 10000) throw new Error("No hospitals found within 10 km.");
             }
 
+            const hospital = hospitals[0];
+            // Save user and hospital data to localStorage
+            localStorage.setItem("userLocation", JSON.stringify(userCoords));
+            localStorage.setItem("hospitalDetails", JSON.stringify({
+                name: hospital.tags.name || "Unnamed Hospital",
+                lat: hospital.lat,
+                lon: hospital.lon
+            }));
             return hospitals[0];
         }
 
@@ -273,7 +293,7 @@
             // Fetch and display route directions
             routeControl.on('routesfound', (e) => {
                 const directions = e.routes[0].instructions.map((step, index) =>
-                    `<li>${index + 1}. ${step.text}</li>`
+                    `<li> ${step.text}</li>`
                 ).join('');
 
                 // Display directions only below the hospital name
@@ -286,6 +306,34 @@
             map.fitBounds([userCoords, hospitalCoords]);
 
             document.getElementById('hospitalName').textContent = `Nearest Hospital: ${hospitalName}`;
+        }
+
+        function animateAmbulance(hospitalCoords, userCoords) {
+            // Create ambulance marker
+            ambulanceMarker = L.marker(hospitalCoords, { icon: L.divIcon({ className: 'ambulance-icon', html: '<div style="color:red;">🚑</div>' }) }).addTo(map);
+            let currentLat = hospitalCoords[0];
+            let currentLon = hospitalCoords[1];
+
+            // Animation parameters
+            const duration = 5000; // total animation duration in milliseconds
+            const steps = 100; // number of animation steps
+            const stepLat = (userCoords[0] - currentLat) / steps;
+            const stepLon = (userCoords[1] - currentLon) / steps;
+
+            // Move the ambulance marker
+            const moveAmbulance = (step) => {
+                if (step <= steps) {
+                    currentLat += stepLat;
+                    currentLon += stepLon;
+                    ambulanceMarker.setLatLng([currentLat, currentLon]);
+                    requestAnimationFrame(() => moveAmbulance(step + 100));
+                } else {
+                    // Show popup when the ambulance arrives at the user's location
+                    ambulanceMarker.bindPopup("Ambulance has been dispatched!").openPopup();
+                }
+            };
+
+            moveAmbulance(0);
         }
 
         document.getElementById('emergencyBtn').addEventListener('click', async () => {
@@ -310,6 +358,22 @@
 
         document.getElementById('homeBtn').addEventListener('click', () => {
             window.location.href = 'index.html'; // Change this to your home page URL
+        });
+
+        // Dispatch Ambulance button functionality
+        document.getElementById('dispatchBtn').addEventListener('click', () => {
+            const userLocation = JSON.parse(localStorage.getItem("userLocation"));
+            const hospitalDetails = JSON.parse(localStorage.getItem("hospitalDetails"));
+            if (userLocation && hospitalDetails) {
+                const message = `Ambulance dispatched to your location: ${userLocation[0]}, ${userLocation[1]} for hospital: ${hospitalDetails.name}.`;
+                localStorage.setItem("dispatchMessage", message); // Store the message in local storage
+                alert(message);
+
+                // Animate ambulance movement
+                animateAmbulance([hospitalDetails.lat, hospitalDetails.lon], userLocation);
+            } else {
+                alert("User location not available. Please request emergency help first.");
+            }
         });
 
         initializeMap();
