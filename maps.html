@@ -56,7 +56,7 @@
         /* Map container */
         .map-container {
             width: 95%;
-            height: 60%;
+            height: 75%;
             background-color: white;
             border: 2px solid blue;
             border-radius: 20px;
@@ -79,7 +79,7 @@
             border: 1px solid #ccc;
             border-radius: 10px;
             font-size: 14px;
-            max-height: 120px;
+            max-height: 80px;
             overflow-y: auto;
             z-index: 2;
         }
@@ -97,8 +97,9 @@
         .home-button,
         .back-button,
         .dispatch-button {
-            padding: 10px 20px;
+            padding: 10px 4px;
             margin-right: 10px;
+            height: 62px;
             border: none;
             border-radius: 5px;
             font-size: 16px;
@@ -215,6 +216,7 @@
         <button class="back-button" id="backBtn" style="display: none;">Back</button>
         <button class="emergency-button" id="emergencyBtn">Emergency Help</button>
         <button class="dispatch-button" id="dispatchBtn">Request for Ambulance Service</button>
+        <button class="dispatch-button" id="callAmbulanceBtn">Call Ambulance Driver</button>
     </div>
 </div>
 
@@ -326,7 +328,7 @@
                     currentLat += stepLat;
                     currentLon += stepLon;
                     ambulanceMarker.setLatLng([currentLat, currentLon]);
-                    requestAnimationFrame(() => moveAmbulance(step + 100));
+                    requestAnimationFrame(() => moveAmbulance(step + 50));
                 } else {
                     // Show popup when the ambulance arrives at the user's location
                     ambulanceMarker.bindPopup("Ambulance has been dispatched!").openPopup();
@@ -359,13 +361,18 @@
         document.getElementById('homeBtn').addEventListener('click', () => {
             window.location.href = 'index.html'; // Change this to your home page URL
         });
+        document.getElementById('callAmbulanceBtn').addEventListener('click', () => {
+             const ambulanceDriverNumber = "6361173920"; // Replace with the actual ambulance driver's phone number
+             window.open(`tel:${ambulanceDriverNumber}`);
+        });
+
 
         // Dispatch Ambulance button functionality
         document.getElementById('dispatchBtn').addEventListener('click', () => {
             const userLocation = JSON.parse(localStorage.getItem("userLocation"));
             const hospitalDetails = JSON.parse(localStorage.getItem("hospitalDetails"));
             if (userLocation && hospitalDetails) {
-                const message = `Ambulance dispatched to your location: ${userLocation[0]}, ${userLocation[1]} for hospital: ${hospitalDetails.name}.`;
+                const message = `Ambulance dispatched to your location: ${userLocation[0]}, ${userLocation[1]} from hospital: ${hospitalDetails.name}.`;
                 localStorage.setItem("dispatchMessage", message); // Store the message in local storage
                 alert(message);
 
