@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Dashboard</title>
+    <link rel="stylesheet" href="sample.css">
+    <script type="module" src="sample.js" defer></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+</head>
+
+<body>
+    <header class="app-header">
+        <h1>Care Connect</h1>
+    </header>
+    <div class="sidebar">
+        <h2>Hospital Dashboard</h2>
+        <div class="section">
+            <h3>Patient Search</h3>
+            <input type="text" id="searchBar" placeholder="Search patient by name or ID..." onkeyup="searchPatients()">
+        </div>
+        <div class="section">
+            <h3>Available Beds</h3>
+            <ul id="availableBedsList"></ul>
+            <ul id="availableBedsData">
+                <li>ICU: 5/10</li>
+                <li>General Ward: 15/30</li>
+                <li>Emergency: 2/5</li>
+            </ul>
+        </div>
+        <div class="section">
+            <h3>Staff Availability</h3>
+            <ul id="staffList">
+                <li>Doctors: 4</li>
+                <li>Nurses: 8</li>
+                <li>Technicians: 3</li>
+            </ul>
+        </div>
+        <div class="section">
+            <h3>Ambulance Status</h3>
+            <ul id="ambulanceList">
+                <li>Available: 3</li>
+                <li>On Call: 2</li>
+            </ul>
+        </div>
+        <div class="section">
+            <h3>Triaging</h3>
+            <ul id="triagingList">
+                <li>Level 1</li>
+                <li>Level 2</li>
+                <li>Level 3</li>
+            </ul>
+        </div>
+        <div class="section">
+            <h3>OT Status</h3>
+            <ul id="otList">
+                <li>OT 1: Occupied</li>
+                <li>OT 2: Available</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="black-line"></div>
+    <hr class="horizontal-line">
+    <hr class="horizontal-line1">
+    <hr class="horizontal-line2">
+
+    <div class="content">
+        <div class="right-panel-section">
+            <h1 style="font-size: 24px; font-weight: bold;">Alerts Panel</h1>
+        </div>
+        <br>
+        <div class="right-panel-section">
+            <h3>Ambulance Dispatch History</h3>
+            <ul id="ambulanceDispatchHistory">
+                <li>Ambulance 1 dispatched to Patient 202 (ICU) - 12:30 PM</li>
+                <li>Ambulance 2 dispatched to Patient 305 (Surgery) - 12:45 PM</li>
+            </ul>
+        </div>
+        <br>
+        <div class="right-panel-section">
+            <h3>Live Traffic for Ambulances</h3>
+            <ul id="ambulanceLiveTraffic">
+                <li>Ambulance 1: On Route to Hospital (10 min ETA)</li>
+                <li>Ambulance 2: Stuck in Traffic (20 min ETA)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content1">
+        <h1 style="color: #E74C3C; font-size: 24px; font-weight: bold; margin-left: -840px; margin-top: 520px;">
+            Details:
+        </h1>
+        <div class="alert-details">
+            <ul id="dispatchMessage">
+                <!-- Dispatch message will be populated here -->
+            </ul>
+            <li><strong>ETA of Ambulance:</strong> 10 min</li>
+            <li><strong>Status of Patient:</strong> Stable</li>
+            <li><strong>Past Medical History:</strong> Hypertension, Diabetes</li>
+            <li><strong>Location of Ambulance:</strong> 5 km from Hospital</li>
+            <li><strong>Current Traffic Condition:</strong> Light Traffic</li>
+            <li><strong>Time of Dispatch:</strong> 12:30 PM</li>
+        </div>
+        <!-- Map Display Section -->
+        <div class="map-container"
+            style="margin-top: 50px; position: absolute; margin-left: -850px; display: flex; justify-content: center;">
+            <div id="map" style="width: 500px; height: 400px; border: 3px solid #003366;"></div>
+            <!-- Map will be here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to search patients
+        function searchPatients() {
+            const input = document.getElementById('searchBar').value.toLowerCase();
+            const patients = document.querySelectorAll('#availableBedsList li'); // Assume you have a list of patients in this section
+            patients.forEach(patient => {
+                const text = patient.textContent.toLowerCase();
+                patient.style.display = text.includes(input) ? '' : 'none';
+            });
+        }
+
+        // Initialize the map
+        const map = L.map('map').setView([51.505, -0.09], 13); // Default coordinates (London)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Function to fetch the nearest hospital using Overpass API
+        async function findNearestHospital(userCoords) {
+            const radiusStep = 2000; // Increase radius step for each retry
+            let radius = 3000; // Initial search radius
+            let hospitals = [];
+
+            while (hospitals.length === 0) {
+                const url = `https://overpass-api.de/api/interpreter?data=[out:json];node["amenity"="hospital"](around:${radius},${userCoords[0]},${userCoords[1]});out;`;
+
+                const response = await fetch(url);
+                const data = await response.json();
+                hospitals = data.elements;
+
+                if (hospitals.length === 0) radius += radiusStep;
+                if (radius > 10000) throw new Error("No hospitals found within 10 km.");
+            }
+
+            const hospital = hospitals[0];
+            return {
+                name: hospital.tags.name || "Unnamed Hospital",
+                lat: hospital.lat,
+                lon: hospital.lon
+            };
+        }
+
+        // Get current user location and process the map
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const userLat = position.coords.latitude;
+                const userLon = position.coords.longitude;
+
+                map.setView([userLat, userLon], 13);
+                L.marker([userLat, userLon]).addTo(map).bindPopup('User Location').openPopup();
+
+                try {
+                    const nearestHospital = await findNearestHospital([userLat, userLon]);
+
+                    L.marker([nearestHospital.lat, nearestHospital.lon]).addTo(map)
+                        .bindPopup(nearestHospital.name)
+                        .openPopup();
+
+                    // Save user and hospital data to localStorage
+                    localStorage.setItem("userLocation", JSON.stringify([userLat, userLon]));
+                    localStorage.setItem("hospitalDetails", JSON.stringify(nearestHospital));
+
+                    // Retrieve dispatch message from localStorage if available
+                    const dispatchMessage = localStorage.getItem("dispatchMessage") || "No dispatch messages available.";
+                    document.getElementById("dispatchMessage").innerHTML = `<li>${dispatchMessage}</li>`;
+                } catch (error) {
+                    alert(error.message);
+                }
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    </script>
+</body>
+
+</html>

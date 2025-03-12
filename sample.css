@@ -1,0 +1,299 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body Styling */
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 900px;
+    background-color: #2C3E50;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+}
+
+/* Sidebar Title */
+.sidebar h2 {
+    margin-bottom: 10px;
+    border-bottom: 2px solid #1ABC9C;
+    padding-bottom: 10px;
+}
+
+/* Section Styling */
+.section {
+    background: #34495E;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.section h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #1ABC9C;
+}
+
+.section ul {
+    list-style: none;
+}
+
+.section ul li {
+    margin: 5px 0;
+}
+
+/* Input Search Bar */
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 3px;
+}
+
+/* Right Content Styling */
+.right-content {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 100vh;
+}
+
+/* Title Bar Styling */
+.title-bar {
+    background-color: #2C3E50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.title-bar h1 {
+    font-size: 24px;
+}
+
+/* Right Panel Section Styles */
+.right-panel-section {
+    margin-left: 600px;
+    width: 250px;
+    background-color: #edebeb;
+    /* Light grayish-blue background */
+    padding: 15px;
+    border-radius: 5px;
+    color: #2C3E50;
+    /* Dark text for better readability */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+}
+
+.right-panel-section h1 {
+    font-size: 25px;
+    text-align: center;
+    color: #3498DB;
+    /* A cool, calming blue for the headings */
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Right Panel Section Headings */
+.right-panel-section h3 {
+    font-size: 20px;
+    color: #3498DB;
+    /* A cool, calming blue for the headings */
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* List Style for Dispatch History & Live Traffic */
+#ambulanceDispatchHistory,
+#ambulanceLiveTraffic {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+#ambulanceDispatchHistory li,
+#ambulanceLiveTraffic li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+/* Hover effect to highlight list items */
+#ambulanceDispatchHistory li:hover,
+#ambulanceLiveTraffic li:hover {
+    background-color: rgb(222, 123, 123);
+    /* Light gray background on hover */
+    cursor: pointer;
+}
+
+/* Added padding and border to the right panel for better spacing */
+.content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Specific styles for individual list items */
+#ambulanceDispatchHistory li,
+#ambulanceLiveTraffic li {
+    padding: 8px;
+    border-left: 4px solid #3498DB;
+    /* Blue bar to the left of each item */
+}
+
+/* App Header Styling */
+.app-header {
+    width: 900px;
+    background-color: white;
+    /* A bright blue color that complements the sidebar */
+    color: #2980B9;
+    padding: 15px 0;
+    position: absolute;
+    top: 0;
+    left: 250px;
+    /* Ensures it stays between the sidebar and content */
+    right: 0;
+}
+
+.app-header h1 {
+    font-size: 36px;
+    /* Large enough to stand out */
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 2px;
+    margin-left: 200px;
+}
+
+/* Body Styling */
+body {
+    display: flex;
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: #f4f4f4;
+
+    position: absolute;
+    /* Ensures app-header aligns properly */
+}
+
+/* Content Styling */
+.content1 {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Map Container Styling */
+.map-container {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Alert Details Styling */
+.alert-details {
+    position: absolute;
+    background-color: #f8f8f8;
+    width: 500px;
+    text-align: justify;
+    padding-left: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-left: -850px;
+    margin-top: 560px;
+}
+
+.alert-details h3 {
+    font-size: 22px;
+    color: #2980B9;
+    margin-bottom: 15px;
+}
+
+.alert-details ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.alert-details ul li {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Black Line Styling */
+.black-line {
+    position: absolute;
+    z-index: 2;
+    width: 2px;
+    /* Set the width of the line */
+    height: 550px;
+    /* Set the thickness of the line */
+    background-color: #2980B9;
+    /* Black color */
+    margin-left: 850px;
+    /* Adjust margin-left as needed */
+    margin-top: 70px;
+    /* Optional: space above the line */
+}
+
+/* Horizontal Line Styling */
+.horizontal-line {
+    position: absolute;
+    z-index: 2;
+    width: 280px;
+    /* Set the width of the line (e.g., 80% of the container) */
+    height: 2px;
+    /* Set the thickness of the line */
+    background-color: #2980B9;
+    /* Black color */
+    border: none;
+    /* Removes default border */
+    margin-left: 850px;
+    /* Adjust left margin distance */
+    margin-top: 620px;
+    /* Optional: space above the line */
+}
+
+/* Horizontal Line Styling */
+.horizontal-line1 {
+    position: absolute;
+    z-index: 2;
+    width: 890px;
+    /* Set the width of the line (e.g., 80% of the container) */
+    height: 2px;
+    /* Set the thickness of the line */
+    background-color: #2980B9;
+    /* Black color */
+    border: none;
+    /* Removes default border */
+    margin-left: 250px;
+    /* Adjust left margin distance */
+    margin-top: 70px;
+    /* Optional: space above the line */
+}
