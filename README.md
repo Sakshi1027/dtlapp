@@ -42,4 +42,4 @@ Feel free to fork this repository and submit pull requests. For major changes, o
 - Add user authentication.
 
 ## Contact
-Reach out to Sakshi at [sakshias.cs23@rvce.edu.in.com](mailto:your-email@example.com).
+Reach out to Sakshi at [sakshias.cs23@rvce.edu.in](mailto:your-email@example.com).
