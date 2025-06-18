@@ -26,11 +26,6 @@
 - **Hospital Dashboard (`hd.html`)**: View real-time data and monitor ambulance status.
 - Allow geolocation access when prompted.
 
-## Deployment
-1. Install Vercel CLI: `npm install -g vercel`.
-2. Run `vercel` in the project directory and link to the GitHub repository.
-3. Access the deployed app via the provided URL (e.g., `https://care-connect.vercel.app`).
-
 ## Visuals
 ![Welcome Screen](./home.png.png)
 ![Map Interface](./maps.png.png)
@@ -46,8 +41,5 @@ Feel free to fork this repository and submit pull requests. For major changes, o
 - Complete additional pages (`emergency.html`, `health.html`, etc.).
 - Add user authentication.
 
-## License
-[MIT License](LICENSE) (or specify your preferred license).
-
 ## Contact
-Reach out to Sakshi at [your-email@example.com](mailto:your-email@example.com).
+Reach out to Sakshi at [sakshias.cs23@rvce.edu.in.com](mailto:your-email@example.com).
