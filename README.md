@@ -1,62 +1,53 @@
-Care Connect - Real-Time Healthcare Assistance System
-Overview
-Care Connect is a real-time healthcare assistance system designed to provide emergency support to users. It locates the nearest hospital using geolocation, displays an optimized route, and allows ambulance dispatch with a simulated movement animation. The system also includes a hospital dashboard for real-time updates on patient data, staff availability, and ambulance status.
-Features
+# Care Connect - Real-Time Healthcare Assistance System
 
-Emergency Assistance: Locate the nearest hospital and display an optimized route on a click.
-Ambulance Dispatch: Request an ambulance with a simulated movement animation to the user's location.
-Hospital Dashboard: Real-time updates including patient search, bed availability (ICU, General Ward, Emergency), staff availability (Doctors, Nurses, Technicians), ambulance status, triaging levels, and OT status.
-Interactive Map: Powered by Leaflet and OpenStreetMap for route visualization and hospital location.
-User Interface: Mobile-like design with intuitive navigation, buttons, and a dropdown menu.
-Additional Pages: Emergency contacts, health profiles, and assistance request sections (under development).
+## Overview
+**Care Connect** is a real-time healthcare assistance system designed to provide emergency support to users. It locates the **nearest hospital** using geolocation, displays an optimized route, and enables **ambulance dispatch** with a simulated movement animation. It also includes a **hospital dashboard** for real-time updates on patient data, staff availability, and ambulance status.
 
-Technologies Used
+## Features
+- **Emergency Assistance**: Locate the nearest hospital and show the best route.
+- **Ambulance Dispatch**: Simulated ambulance movement to the user’s location.
+- **Hospital Dashboard**: Real-time updates on patient data, staff availability, and ambulance status.
 
-HTML/CSS/JavaScript: For frontend development.
-Leaflet.js and Routing Machine: For map rendering and route calculation.
-OpenStreetMap: Provides map data.
-Firebase: Included for potential real-time data integration (in progress).
-LocalStorage: For storing user location, hospital details, and dispatch messages.
+## Technologies Used
+- HTML/CSS/JavaScript: For frontend development.
+- Leaflet.js and Routing Machine: For map rendering and route calculation.
+- OpenStreetMap: Provides map data.
+- Firebase: For potential real-time data integration (in progress).
+- LocalStorage: For storing user location, hospital details, and dispatch messages.
 
-Installation
+## Installation
+1. Clone the repository:git clone https://github.com/Sakshi1027/dtlapp.git
+2. Navigate to the project directory:
+3. Open `index.html` in a web browser to start the app locally.
 
-Clone the repository:git clone https://github.com/Sakshi1027/dtlapp.git
+## Usage
+- **Welcome Page (`index.html`)**: Click "Get Started" to access the map.
+- **Map Interface (`maps.html`)**: Use "Emergency Help" to find the nearest hospital and route, then request ambulance service.
+- **Hospital Dashboard (`hd.html`)**: View real-time data and monitor ambulance status.
+- Allow geolocation access when prompted.
 
+## Deployment
+1. Install Vercel CLI: `npm install -g vercel`.
+2. Run `vercel` in the project directory and link to the GitHub repository.
+3. Access the deployed app via the provided URL (e.g., `https://care-connect.vercel.app`).
 
-Navigate to the project directory:cd dtlapp
+## Visuals
+![Welcome Screen](./home.png.png)
+![Map Interface](./maps.png.png)
+![Hospital Dashboard](./hospital_dashboard.png)
+![Ambulance dispatch](./ambulance.png.png)
 
+## Contributing
+Feel free to fork this repository and submit pull requests. For major changes, open an issue to discuss.
 
-Open index.html in a web browser to start the app locally.
+## Future Improvements
+- Integrate Firebase for real-time updates.
+- Enhance ambulance tracking with GPS data.
+- Complete additional pages (`emergency.html`, `health.html`, etc.).
+- Add user authentication.
 
-Usage
+## License
+[MIT License](LICENSE) (or specify your preferred license).
 
-Welcome Page (index.html): Click "Get Started" to access the map interface or use the menu for other sections.
-Map Interface (maps.html): Click "Emergency Help" to find the nearest hospital and route, then use "Request for Ambulance Service" or "Call Ambulance Driver" to dispatch assistance.
-Hospital Dashboard (hd.html): View real-time hospital data, search patients, and monitor ambulance dispatch history and live traffic.
-Allow geolocation access when prompted for accurate location services.
-
-Deployment
-This project can be deployed on Vercel:
-
-Install Vercel CLI: npm install -g vercel.
-Run vercel in the project directory and link to the GitHub repository.
-Access the deployed app via the provided URL (e.g., https://care-connect.vercel.app).
-
-Visuals
-![Welcome Screen](./screenshots/index.png)
-![Map Interface](./screenshots/maps.png)
-![Hospital Dashboard](./screenshots/dashboard.png)
-
-Contributing
-Feel free to fork this repository and submit pull requests. For major changes, please open an issue to discuss.
-Future Improvements
-
-Integrate Firebase for real-time data updates.
-Enhance ambulance tracking with actual GPS data.
-Complete emergency.html, health.html, request.html, and about.html with full functionality.
-Add user authentication and data persistence.
-
-License
-MIT License (or specify your preferred license).
-Contact
-For questions, reach out to Sakshi at your-email@example.com.
+## Contact
+Reach out to Sakshi at [your-email@example.com](mailto:your-email@example.com).
