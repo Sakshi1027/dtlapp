@@ -29,7 +29,7 @@
 ## Visuals
 ![Welcome Screen](./home.png.png)
 ![Map Interface](./maps.png.png)
-![Hospital Dashboard](./hospital_dashboard.png)
+![Hospital Dashboard](./hospital_dashboard.png.png)
 ![Ambulance dispatch](./ambulance.png.png)
 
 ## Contributing
